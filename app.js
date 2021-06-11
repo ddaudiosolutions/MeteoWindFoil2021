@@ -197,7 +197,7 @@ function graficoVientocmsap(datoscmsap){
             datasets: [              
             {
                 label: 'Viento',
-                lineTension: 0.4,
+                lineTension: 0.2,
                 stepped: false,
                 data: dataSetcmsap,
                 backgroundColor: 'transparent',
@@ -210,7 +210,7 @@ function graficoVientocmsap(datoscmsap){
             },
             {
               label: 'Racha',
-              lineTension: 0.4,
+              lineTension: 0.2,
               stepped: false,
               data: dataSetcmsapGust,
                 backgroundColor: 'transparent',
@@ -242,7 +242,7 @@ function graficoVientocmsap(datoscmsap){
                 maintainAspectRatio: false,
                 line: {
                     borderJoinStyle: 'round',  
-                    lineTension: 0                  
+                    //lineTension: 0                  
                    
                 },
                 
@@ -347,25 +347,31 @@ function graficoViento(datosCNA){
 
         var chartData = {
         labels:  dataSetTimeCNA,
-        datasets: [{
-            data: dataSetCNA,
+        datasets: [
+          {
             label: 'Viento',
+            lineTension: 0.2,
+            stepped: false,
+            data: dataSetCNA,
             backgroundColor: 'transparent',
             borderColor: colors[1],
             borderWidth: 2,
             pointBackgroundColor: colors[3],
                 pointStyle: 'dash',
-                cubicInterpolationMode: 'monotone'
+                //cubicInterpolationMode: 'monotone'
         },
         {
-          data: dataSetGustCNA,
-          label: 'Racha',
+          
+            label: 'Racha',
+            lineTension: 0.2,
+            stepped: false,
+            data: dataSetGustCNA,
             backgroundColor: 'transparent',
             borderColor: colors[5],
             borderWidth: 2,
             pointBackgroundColor: colors[5],
                 pointStyle: 'dash',
-                cubicInterpolationMode: 'monotone'
+               // cubicInterpolationMode: 'monotone'
 
         }
         ]
@@ -380,6 +386,13 @@ function graficoViento(datosCNA){
         data: chartData,
         options: {
           elements:{
+            responsive: false,
+            maintainAspectRatio: false,
+            line: {
+              borderJoinStyle: 'round',  
+              //lineTension: 0                  
+             
+          },
             point:{
               radius: 0
             }
@@ -387,10 +400,10 @@ function graficoViento(datosCNA){
           scales: {
             yAxes: [{
               ticks: {
-                suggestedMax: maxWind + 3, // scale.max is Math.max(data.max, 1e6),
+                suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
                 beginAtZero: true,
-                stepSize: 0.5,
-                maxTicksLimit: 25
+                stepSize: 1,
+                maxTicksLimit: 50
               }
           }],
           xAxes:[{
