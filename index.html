@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;900&display=swap" rel="stylesheet">
+    
+   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.gstatic.com">
+
+   <!-- <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+      <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script> -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Meteo Windsurf Mallorca</title>
+</head>
+
+<body>
+    <h1 style='text-align: center;'>Meteo Windsurf Mallorca</h1>
+        <div class="container">
+            <div class="row " style="margin-bottom: 20px;">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="rotuloEstaciones" style='background-color:aqua; '>CMSAP</h2>
+                      <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="card">
+                            <h4 class="rotulo">Intensidad de Viento</h4>
+                            <div id="container" class="card-body"></div>
+                        </div>
+                    </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <h4 class="rotulo">Condiciones de Viento</h4>
+                                <div class="card-body">
+                                    <div id="direccionViento" class="card-body"></div>                            
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <h4 class="rotulo">Gráfico de Intensidad</h4>
+                                <div class="card-body">
+                                    <canvas id="chLine"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" style="margin-top: 10px">
+                <div class="card">
+                    <div class="card-body">
+                <h2 class="rotuloEstaciones" style='background-color:rgb(29, 143, 250); '>CNARENAL</h2>
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div class="card">
+                    <h4 class="rotulo">Intensidad de Viento</h4>
+                      <div id="container2" class="card-body">
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <h4 class="rotulo">Condiciones de Viento</h4>
+                    <div class="card-body">
+                        <div id="direccionViento2" class="card-body">
+                        </div>
+                          
+                      </div>
+                </div>
+              </div>
+              <div class="ol-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <h4 class="rotulo">Gráfico de Intensidad</h4>
+                    <div class="card-body">
+                        <canvas id="chLine2"></canvas>
+                         
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            <!-- <div id="windy">
+
+            </div> -->
+        
+      </div>
+      
+    <script src="/app.js"></script>
+     <!-- <script src="/windy.js"></script>  -->
+</body>
+
+</html>
