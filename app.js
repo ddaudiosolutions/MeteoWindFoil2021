@@ -21,9 +21,9 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
    //CMSAP 
     fetch(urlcmsap)
       .then (resp => resp.json())        
-      .then(function(datos) {
-          mostrarDatosEstaciones(datos)          
-          setTimeout(updateCMSAP, 5000); /// <-- now that this call is done, 
+      .then(function(datoscmsap) {
+          mostrarDatosEstaciones(datoscmsap)          
+          setTimeout(updateCMSAP, 5000, 60); /// <-- now that this call is done, 
                                     //     we can program the next one                                  
         })    
       .catch (error => console.log(error))       
@@ -48,7 +48,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
      
 
 
-    function mostrarDatosEstaciones(datos){
+    function mostrarDatosEstaciones(datoscmsap){
         
         while (containerWind.firstChild){
             containerWind.removeChild(containerWind.firstChild)
@@ -59,19 +59,19 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         }
 
         let viento = document.createElement('h2')
-        viento.textContent = datos.LATEST_DATA.TWS + 'kts'
+        viento.textContent = datoscmsap.LATEST_DATA.TWS + 'kts'
         viento.classList.add('vientoKts')
 
         let direccionViento = document.createElement('h2')
-        direccionViento.textContent = datos.LATEST_DATA.TWD +'º'
+        direccionViento.textContent = datoscmsap.LATEST_DATA.TWD +'º'
         direccionViento.classList.add('direccionvientoKts')
 
         let direccionCardinal = document.createElement('h2')        
-        direccionCardinal.textContent = degToCard (datos.TWD)
+        direccionCardinal.textContent = degToCard (datoscmsap.LATEST_DATA.TWD)
         direccionCardinal.classList.add('direccionvientoKts')
 
         containerWind.appendChild(viento)
-        //console.log(viento.textContent)
+       // console.log(datoscmsap.TWD)
 
         containerDirection.appendChild(direccionViento)
         containerDirection.appendChild(direccionCardinal)
@@ -97,7 +97,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         direccionViento2.classList.add('direccionvientoKts')
 
         let direccionCardinal = document.createElement('h2')        
-        direccionCardinal.textContent = degToCard (datos2.TWD)
+        direccionCardinal.textContent = degToCard (datos2.LATEST_DATA.TWD)
         direccionCardinal.classList.add('direccionvientoKts')
 
         containerWind2.appendChild(viento2)
