@@ -30,3 +30,15 @@
     margin-top: 5px; 
     border-radius: 5px;
 }
+
+
+
+@media (max-width: 400px) {
+    .resizecard {
+      height: 300px;
+    }
+    #chLine{
+        height: 290px;
+    }
+    
+  }

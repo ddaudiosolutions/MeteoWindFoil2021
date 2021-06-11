@@ -5,29 +5,27 @@ let containerDirection2 = document.querySelector('#direccionViento2')
 
 
 
-const urlcmsap = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cmsap/?period=latestdata';
-const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cnarenal/?period=latestdata';
+const urlcmsap = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cmsap/?period=latesthour';
+const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cnarenal/?period=latesthour';
 
     window.onload  = getDataWind();
 
- function getDataWind (){
+  function getDataWind (){
 
-    updateCMSAP()
-    updateArenal()
-    };
+      updateCMSAP()
+      updateArenal()
+      
+      };
 
  function updateCMSAP() {
    //CMSAP 
     fetch(urlcmsap)
-    .then (resp => resp.json())    
-    .then(function(datos) {
-        mostrarDatosEstaciones(datos)
-
-       //console.log(datos)
-        // ... do something with your json ...
-        setTimeout(updateCMSAP, 5000, 60); /// <-- now that this call is done, 
-                                  //     we can program the next one
-      })
+      .then (resp => resp.json())        
+      .then(function(datos) {
+          mostrarDatosEstaciones(datos)          
+          setTimeout(updateCMSAP, 5000); /// <-- now that this call is done, 
+                                    //     we can program the next one                                  
+        })    
       .catch (error => console.log(error))       
     
     }
@@ -40,7 +38,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
          .then (resp => resp.json())    
          .then(function(datos2) {
             cnArenal(datos2)             
-             //console.log(datos)
+            // console.log(datos2)
              // ... do something with your json ...
              setTimeout(updateArenal, 5000, 60); /// <-- now that this call is done, 
                                        
@@ -61,11 +59,11 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         }
 
         let viento = document.createElement('h2')
-        viento.textContent = datos.TWS + 'kts'
+        viento.textContent = datos.LATEST_DATA.TWS + 'kts'
         viento.classList.add('vientoKts')
 
         let direccionViento = document.createElement('h2')
-        direccionViento.textContent = datos.TWD +'º'
+        direccionViento.textContent = datos.LATEST_DATA.TWD +'º'
         direccionViento.classList.add('direccionvientoKts')
 
         let direccionCardinal = document.createElement('h2')        
@@ -91,11 +89,11 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         //CNARENAL
 
         let viento2 = document.createElement('h2')
-        viento2.textContent = datos2.TWS + 'kts'
+        viento2.textContent = datos2.LATEST_DATA.TWS + 'kts'
         viento2.classList.add('vientoKts')
 
         let direccionViento2 = document.createElement('h2')
-        direccionViento2.textContent = datos2.TWD +'º'
+        direccionViento2.textContent = datos2.LATEST_DATA.TWD +'º'
         direccionViento2.classList.add('direccionvientoKts')
 
         let direccionCardinal = document.createElement('h2')        
@@ -110,7 +108,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
 
     }
 
-
+// PUNTOS CARDINALES PARA DIRECCION DEL VIENTO
     var degToCard = function(deg){
         if (deg>11.25 && deg<=33.75){
           return "NNE";
@@ -150,63 +148,77 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
  
 
       // GRAFICO VIENTO CN CAN PASTILLA
-
-const urlGrafico2 = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cmsap/?period=latesthour';
                     
-fetch(urlGrafico2)
+fetch(urlcmsap)
       .then (resp2 => resp2.json())
-      .then(datosG2 => graficoViento2(datosG2))
+      .then(datoscmsap => graficoVientocmsap(datoscmsap))
 // chart colors
-function graficoViento2(datosG2){
-    //console.log(datosG.TIME[0],datosG.TIME[1],datosG.TIME[2] )
-     var dataSet2 = []
-     var dataSet2Gust = []
-     var dataSetTime2 = []
-     //var horasViento = dataSetTime.getHours();
-    for(let i=0; i<datosG2.length; i++){
-       // console.log(datosG2.TWS[i])
-      
-        dataSet2.push(parseFloat(datosG2.TWS[i]))
-        dataSet2Gust.push(datosG2.TWS_GUST[i])
-        console.log(dataSet2)
-    }
+    var dataSetcmsap = []
+    var dataSetcmsapGust = []
+    var dataSetTimecmsap = []
 
-    for(let i=0; i<datosG2.length; i++){
+function graficoVientocmsap(datoscmsap){
+    //console.log(datosG.TIME[0],datosG.TIME[1],datosG.TIME[2] )
+     
+     //var horasViento = dataSetTime.getHours();
+    for(let i=0; i<datoscmsap.length; i++){
+        dataSetcmsap.push((datoscmsap.TWS[i]))
+        dataSetcmsapGust.push(datoscmsap.TWS_GUST[i])
+       
+    }
+   
+
+    for(let i=0; i<datoscmsap.length; i++){
        // console.log(datosG.TIME[i])
-        dataSetTime2.push(new Date (datosG2.TIME[i]).toTimeString().slice(0,5))
+        dataSetTimecmsap.push(new Date (datoscmsap.TIME[i]).toTimeString().slice(0,5))
        //console.log(dataSetTime)
     }
 
-    
-    
+   
+
+
     
   
+  
+    /*let newArry = interpolateArray(dataSetcmsap, 200);
+    //console.log(newArry)
+   
+    let newArryGust = interpolateArray(dataSetcmsapGust, 200);
+    //console.log(newArry)
+    let newArryTime = interpolateArray(dataSetTimecmsap, 200)*/
+
     var colors = ['#007bff','#0097fc','#333333','#c3e6cb','#dc3545','#ed872d']; 
  
       /* large line chart */
-        var chLine = document.querySelector("#chLine");
+        var chLinecmsap = document.querySelector("#chLine");
 
         var datosGraph = {
-            labels:  dataSetTime2,
-            datasets: [{
+            labels:  dataSetTimecmsap,
+            datasets: [              
+            {
                 label: 'Viento',
-                data: dataSet2,
+                lineTension: 0.4,
+                stepped: false,
+                data: dataSetcmsap,
                 backgroundColor: 'transparent',
                 borderColor: colors[1],
                 borderWidth: 2,
                 pointBackgroundColor: colors[1],
                 pointStyle: 'dash',
-                cubicInterpolationMode: 'monotone'
+               // cubicInterpolationMode: 'monotone',
+                
             },
             {
               label: 'Racha',
-              data: dataSet2Gust,
+              lineTension: 0.4,
+              stepped: false,
+              data: dataSetcmsapGust,
                 backgroundColor: 'transparent',
                 borderColor: colors[5],
                 borderWidth: 2,
                 pointBackgroundColor: colors[5],
-                pointStyle: 'dash',
-                cubicInterpolationMode: 'monotone'
+               pointStyle: 'dash',
+              // cubicInterpolationMode: 'monotone'
     
             }
             ]
@@ -216,32 +228,42 @@ function graficoViento2(datosG2){
         //console.log(maxWind)
        
         
-        if (chLine) {   
-            new Chart(chLine, {
+        if (chLinecmsap) {   
+            new Chart(chLinecmsap, {
             type: 'line',
             data: datosGraph,
+            
             options: {
+              //showLines: false,
+              //snapGaps: false,
               elements:{
-                showLines:true,
-                spanGaps: false,
+                
+                responsive: false,
+                maintainAspectRatio: false,
+                line: {
+                    borderJoinStyle: 'round',  
+                    lineTension: 0                  
+                   
+                },
+                
                 
                 point:{
-                  radius: 0
+                  radius: 1
                 }
               },
                 scales: {
                 yAxes: [{
                     ticks: {
-                      suggestedMax: maxWind + 3, // scale.max is Math.max(data.max, 1e6),
+                      suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
                       beginAtZero: true,
-                      stepSize: 0.5,
-                      maxTicksLimit: 25
+                      stepSize: 1,
+                      maxTicksLimit: 50
                     }
                 }],
                 xAxes:[{
                   ticks: {
                     autoSkip: true,
-                    maxTicksLimit: 15                 
+                    maxTicksLimit: 15                
                   }
                 }]
                 },
@@ -253,36 +275,66 @@ function graficoViento2(datosG2){
             }
             });
         } 
-    }
+
+        
+        
+}
+
+function interpolateArray(data, fitCount) {
+  //console.log(data)
+
+  var linearInterpolate = function (before, after, atPoint) {
+      return before + (after - before) * atPoint;
+  };
+  
+var newData = new Array();
+
+var springFactor = new Number((data.length - 1) / (fitCount - 1));
+
+newData[0] = data[0]; // for new allocation
+
+for ( var i = 1; i < fitCount - 1; i++) {
+  var tmp = i * springFactor;
+  var before = new Number(Math.floor(tmp)).toFixed();
+  var after = new Number(Math.ceil(tmp)).toFixed();
+  var atPoint = tmp - before;
+  newData[i] = linearInterpolate(data[before], data[after], atPoint);
+  }
+  newData[fitCount - 1] = data[data.length - 1]; // for new allocation
+  console.log(newData)
+  return newData;
+};
+      
+
+
 
 
 
 //GRAFICO VIENTO CNARENAL
-/* chart.js chart examples */
-const urlGrafico = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cnarenal/?period=latesthour' ;//"https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cnarenal/?period=latestday";
 
-fetch(urlGrafico)
+
+fetch(urlcnarenal)
       .then (resp => resp.json())
-      .then(datosG => graficoViento(datosG))
+      .then(datosCNA => graficoViento(datosCNA))
 // chart colors
-function graficoViento(datosG){
+function graficoViento(datosCNA){
     //console.log(datosG)
-     var dataSet = []
-     var dataSetGust = []
-     var dataSetTime = []
+     var dataSetCNA = []
+     var dataSetGustCNA = []
+     var dataSetTimeCNA = []
 
      //console.log(datosG)
      //var horasViento = dataSetTime.getHours();
-    for(let i=0; i<datosG.length; i++){
+    for(let i=0; i<datosCNA.length; i++){
         //console.log(datosG.TWS_GUST)
-        dataSet.push(datosG.TWS[i])
-        dataSetGust.push(datosG.TWS_GUST[i])
+        dataSetCNA.push(datosCNA.TWS[i])
+        dataSetGustCNA.push(datosCNA.TWS_GUST[i])
         //console.log(dataSetGust)
     }
 
-    for(let i=0; i<datosG.length; i++){
+    for(let i=0; i<datosCNA.length; i++){
        // console.log(datosG.TIME[i])
-        dataSetTime.push(new Date (datosG.TIME[i]).toTimeString().slice(0,5))
+        dataSetTimeCNA.push(new Date (datosCNA.TIME[i]).toTimeString().slice(0,5))
        //console.log(dataSetTime)
     }
     
@@ -291,12 +343,13 @@ function graficoViento(datosG){
     var colors = ['#007bff','#0097fc','#333333','#c3e6cb','#dc3545','#ed872d']; 
  
       /* large line chart */
-        var chLine2 = document.querySelector("#chLine2");
+        var chLineCNA = document.querySelector("#chLine2");
 
         var chartData = {
-        labels:  dataSetTime,
+        labels:  dataSetTimeCNA,
         datasets: [{
-            data: dataSet,
+            data: dataSetCNA,
+            label: 'Viento',
             backgroundColor: 'transparent',
             borderColor: colors[1],
             borderWidth: 2,
@@ -305,7 +358,8 @@ function graficoViento(datosG){
                 cubicInterpolationMode: 'monotone'
         },
         {
-          data: dataSetGust,
+          data: dataSetGustCNA,
+          label: 'Racha',
             backgroundColor: 'transparent',
             borderColor: colors[5],
             borderWidth: 2,
@@ -320,8 +374,8 @@ function graficoViento(datosG){
         let maxWind = Math.max(...chartData.datasets[0].data)
         
 
-        if (chLine2) {   
-        new Chart(chLine2, {
+        if (chLineCNA) {   
+        new Chart(chLineCNA, {
         type: 'line',
         data: chartData,
         options: {
@@ -358,3 +412,5 @@ function graficoViento(datosG){
 
 
 }
+
+
