@@ -21,77 +21,105 @@
 
 <body>
     <h1 style='text-align: center;'>Meteo Windsurf Mallorca</h1>
-        <div class="container">
-            <div class="row " style="margin-bottom: 20px;">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="rotuloEstaciones" style='background-color:aqua; '>CMSAP</h2>
-                      <div class="col-sm-12 col-md-12 col-lg-12 mh-200">
-                        <div class="card">
-                            <h4 class="rotulo">Intensidad de Viento</h4>
-                            <div id="container" class="card-body"></div>
-                        </div>
-                    </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="card">
-                                <h4 class="rotulo">Condiciones de Viento</h4>
-                                <div class="card-body">
-                                    <div id="direccionViento" class="card-body"></div>                            
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12 ">
-                            <div class="card">
-                                <h4 class="rotulo">Gráfico de Intensidad</h4>
-                                <div class="card-body resizecard">
-                                    <div class="chartcontainer">
-                                        <canvas height=300px id="chLine"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="container">
+        <div class="h3 text-center bg-info">METEO ON-LINE CMSAP</div>
+        <div class="row row-cols-1 row-cols-md-2 g-4 d-flex">
+           
+            <div class="col ">                
+              <div class="card card-block h-100">               
+                <div class="card-body">
+                  <h5 class="card-title bg-info">Intensidad de Viento</h5>
+                  <div id="container" class="card-body"></div>
                 </div>
+              </div>
             </div>
-            
-            <div class="row" style="margin-top: 10px">
-                <div class="card">
-                    <div class="card-body">
-                <h2 class="rotuloEstaciones" style='background-color:rgb(29, 143, 250); '>CNARENAL</h2>
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                  <div class="card">
-                    <h4 class="rotulo">Intensidad de Viento</h4>
-                      <div id="container2" class="card-body">
-                      </div>
+            <div class="col">
+              <div class="card card-block h-100">                
+                <div class="card-body">
+                  <h5 class="card-title bg-info">Condiciones de Viento</h5>                 
+                  <div class="card-body">
+                       <div id="direccionViento" class="card-body"></div>                            
                   </div>
-              </div>
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="card">
-                    <h4 class="rotulo">Condiciones de Viento</h4>
-                    <div class="card-body">
-                        <div id="direccionViento2" class="card-body">
-                        </div>
-                          
-                      </div>
                 </div>
               </div>
-              <div class="ol-sm-12 col-md-12 col-lg-12">
+            </div>
+            <div class="col">
                 <div class="card">
                     <h4 class="rotulo">Gráfico de Intensidad</h4>
-                    <div class="card-body">
-                        <canvas height=300px id="chLine2"></canvas>
-                         
+                       <div class="card-body h-100">
+                         <div class="">
+                           <canvas height=200px id="chLine"></canvas>
+                           </div>
+                        </div>
                     </div>
-                </div>
-                </div>
+                
             </div>
+            <div class="col">
+                <div class="card">
+                    <h4 class="rotulo">Gráfico 24H</h4>
+                       <div class="card-body h-100">
+                         <div class="">
+                           <canvas height=200px id="chLine24CMSAP"></canvas>
+                           </div>
+                        </div>
+                    </div>
+                
             </div>
-            </div>
-            <!-- <div id="windy">
-
-            </div> -->
         
-      </div>
+          </div>
+    </div>
+         
+            
+            
+                        
+               
+    <div class="container">
+        <div class="h3 text-center bg-primary">METEO ON-LINE CNARENAL</div>
+        <div class="row row-cols-1 row-cols-md-2 g-4 d-flex">           
+            <div class="col ">                
+              <div class="card card-block h-100">               
+                <div class="card-body">
+                  <h5 class="card-title bg-primary">Intensidad de Viento</h5>
+                  <div id="container2" class="card-body"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card card-block h-100">                
+                <div class="card-body">
+                  <h5 class="card-title bg-primary">Condiciones de Viento</h5>                 
+                  <div class="card-body">
+                       <div id="direccionViento2" class="card-body"></div>                            
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <h4 class="rotulo">Gráfico de Intensidad</h4>
+                       <div class="card-body h-100">
+                         <div class="">
+                           <canvas height=200px id="chLine2"></canvas>
+                           </div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="col">
+                <div class="card">
+                    <h4 class="rotulo">Gráfico 24H</h4>
+                       <div class="card-body h-100">
+                         <div class="">
+                           <canvas height=200px id="chLine24CNARENAL"></canvas>
+                           </div>
+                        </div>
+                    </div>
+                
+            </div>
+        
+          </div>
+    </div>
+     
       
     <script src="/app.js"></script>
     <!-- <script src="/ge.js"></script> -->

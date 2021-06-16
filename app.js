@@ -36,8 +36,8 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         //CMSAP 
          fetch(urlcnarenal)
          .then (resp => resp.json())    
-         .then(function(datos2) {
-            cnArenal(datos2)             
+         .then(function(datoscnarenal) {
+            cnArenal(datoscnarenal)             
             // console.log(datos2)
              // ... do something with your json ...
              setTimeout(updateArenal, 5000, 60); /// <-- now that this call is done, 
@@ -59,8 +59,11 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         }
 
         let viento = document.createElement('h2')
-        viento.textContent = datoscmsap.LATEST_DATA.TWS + 'kts'
+        viento.textContent = datoscmsap.LATEST_DATA.TWS + 'kn'
         viento.classList.add('vientoKts')
+
+        let rachacmsap = document.createElement('h4')
+        rachacmsap.textContent = 'Racha: ' +  datoscmsap.LATEST_DATA.TWS_GUST + 'kn'
 
         let direccionViento = document.createElement('h2')
         direccionViento.textContent = datoscmsap.LATEST_DATA.TWD +'º'
@@ -71,6 +74,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         direccionCardinal.classList.add('direccionvientoKts')
 
         containerWind.appendChild(viento)
+        containerWind.appendChild(rachacmsap)
        // console.log(datoscmsap.TWD)
 
         containerDirection.appendChild(direccionViento)
@@ -78,7 +82,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
 
     }
 
-    function cnArenal(datos2){        
+    function cnArenal(datoscnarenal){        
         while (containerWind2.firstChild){
             containerWind2.removeChild(containerWind2.firstChild)
         }
@@ -89,18 +93,23 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
         //CNARENAL
 
         let viento2 = document.createElement('h2')
-        viento2.textContent = datos2.LATEST_DATA.TWS + 'kts'
+        viento2.textContent = datoscnarenal.LATEST_DATA.TWS + 'kts'
         viento2.classList.add('vientoKts')
 
         let direccionViento2 = document.createElement('h2')
-        direccionViento2.textContent = datos2.LATEST_DATA.TWD +'º'
+        direccionViento2.textContent = datoscnarenal.LATEST_DATA.TWD +'º'
         direccionViento2.classList.add('direccionvientoKts')
+        
+        let rachacnArenal = document.createElement('h4')
+        rachacnArenal.textContent = 'Racha: ' +datoscnarenal.LATEST_DATA.TWS_GUST + 'kn'
+
 
         let direccionCardinal = document.createElement('h2')        
-        direccionCardinal.textContent = degToCard (datos2.LATEST_DATA.TWD)
+        direccionCardinal.textContent = degToCard (datoscnarenal.LATEST_DATA.TWD)
         direccionCardinal.classList.add('direccionvientoKts')
 
         containerWind2.appendChild(viento2)
+        containerWind2.appendChild(rachacnArenal)
       
         
         containerDirection2.appendChild(direccionViento2)
@@ -164,9 +173,7 @@ function graficoVientocmsap(datoscmsap){
     for(let i=0; i<datoscmsap.length; i++){
         dataSetcmsap.push((datoscmsap.TWS[i]))
         dataSetcmsapGust.push(datoscmsap.TWS_GUST[i])
-       
     }
-   
 
     for(let i=0; i<datoscmsap.length; i++){
        // console.log(datosG.TIME[i])
@@ -174,18 +181,7 @@ function graficoVientocmsap(datoscmsap){
        //console.log(dataSetTime)
     }
 
-   
-
-
     
-  
-  
-    /*let newArry = interpolateArray(dataSetcmsap, 200);
-    //console.log(newArry)
-   
-    let newArryGust = interpolateArray(dataSetcmsapGust, 200);
-    //console.log(newArry)
-    let newArryTime = interpolateArray(dataSetTimecmsap, 200)*/
 
     var colors = ['#007bff','#0097fc','#333333','#c3e6cb','#dc3545','#ed872d']; 
  
@@ -242,8 +238,6 @@ function graficoVientocmsap(datoscmsap){
                 maintainAspectRatio: false,
                 line: {
                     borderJoinStyle: 'round',  
-                    //lineTension: 0                  
-                   
                 },
                 
                 
@@ -263,7 +257,7 @@ function graficoVientocmsap(datoscmsap){
                 xAxes:[{
                   ticks: {
                     autoSkip: true,
-                    maxTicksLimit: 15                
+                    maxTicksLimit: 4               
                   }
                 }]
                 },
@@ -426,4 +420,202 @@ function graficoViento(datosCNA){
 
 }
 
+//GRAFICO 24 HORAS CM SAN ANTONIO DE LA PLAYA
 
+
+
+const url24hCMSAP = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cmsap/?period=latestday'
+
+fetch (url24hCMSAP)
+  .then (resp => resp.json())
+  .then (resultado24Cmsap => graficoCmsap24(resultado24Cmsap))
+
+  function graficoCmsap24 (resultado24Cmsap){
+
+    var dataset24CMSAP = []     
+     var dataSetTimeCMSAP  = []
+
+    
+    for(let i=0; i<resultado24Cmsap.length; i++){
+        //console.log(datosG.TWS_GUST)
+        dataset24CMSAP.push(resultado24Cmsap.TWS[i])        
+        
+    }
+
+    for(let i=0; i<resultado24Cmsap.length; i++){
+       
+      dataSetTimeCMSAP.push(new Date (resultado24Cmsap.TIME[i]).toTimeString().slice(0,5))
+      
+    }
+    
+    
+  
+    var colors = ['#007bff','#0097fc','#333333','#c3e6cb','#dc3545','#ed872d']; 
+ 
+      /* large line chart */
+        var chLineCMSAP = document.querySelector("#chLine24CMSAP");
+
+        var chartData = {
+        labels:  dataSetTimeCMSAP,
+        datasets: [
+          {
+            label: 'Viento',
+            lineTension: 0.2,
+            stepped: false,
+            data: dataset24CMSAP,
+            backgroundColor: 'transparent',
+            borderColor: colors[1],
+            borderWidth: 2,
+            pointBackgroundColor: colors[3],
+                pointStyle: 'dash',
+                //cubicInterpolationMode: 'monotone'
+        }
+        
+        ]
+        
+        };
+        let maxWind = Math.max(...chartData.datasets[0].data)
+        
+
+        if (chLineCMSAP) {   
+        new Chart(chLineCMSAP, {
+        type: 'line',
+        data: chartData,
+        options: {
+          elements:{
+            responsive: false,
+            maintainAspectRatio: false,
+            line: {
+              borderJoinStyle: 'round',  
+              //lineTension: 0                  
+             
+          },
+            point:{
+              radius: 0
+            }
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
+                beginAtZero: true,
+                stepSize: 1,
+                maxTicksLimit: 50
+              }
+          }],
+          xAxes:[{
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 15                 
+            }
+          }]
+          },
+          legend: {
+          display: true,
+          autoDisplayLegend:true
+          },
+      }
+        });
+        }   
+
+
+  }
+
+//GRAFICO VIENTO 24 HORAS ARENAL
+
+const url24hArenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cnarenal/?period=latestday'
+
+fetch (url24hArenal)
+  .then (resp => resp.json())
+  .then (resultado24Arenal => graficoArenal24(resultado24Arenal))
+
+  function graficoArenal24 (resultado24Arenal){
+
+    var dataset24CNA = []     
+     var dataSetTimeCNA = []
+
+    
+    for(let i=0; i<resultado24Arenal.length; i++){
+        //console.log(datosG.TWS_GUST)
+        dataset24CNA.push(resultado24Arenal.TWS[i])        
+        
+    }
+
+    for(let i=0; i<resultado24Arenal.length; i++){
+       
+        dataSetTimeCNA.push(new Date (resultado24Arenal.TIME[i]).toTimeString().slice(0,5))
+      
+    }
+    
+    
+  
+    var colors = ['#007bff','#0097fc','#333333','#c3e6cb','#dc3545','#ed872d']; 
+ 
+      /* large line chart */
+        var chLine24CNA = document.querySelector("#chLine24CNARENAL");
+
+        var chartData = {
+        labels:  dataSetTimeCNA,
+        datasets: [
+          {
+            label: 'Viento',
+            lineTension: 0.2,
+            stepped: false,
+            data: dataset24CNA,
+            backgroundColor: 'transparent',
+            borderColor: colors[1],
+            borderWidth: 2,
+            pointBackgroundColor: colors[3],
+                pointStyle: 'dash',
+                //cubicInterpolationMode: 'monotone'
+        }
+        
+        ]
+        
+        };
+        let maxWind = Math.max(...chartData.datasets[0].data)
+        
+
+        if (chLine24CNA) {   
+        new Chart(chLine24CNA, {
+        type: 'line',
+        data: chartData,
+        options: {
+          elements:{
+            responsive: false,
+            maintainAspectRatio: false,
+            line: {
+              borderJoinStyle: 'round',  
+              //lineTension: 0                  
+             
+          },
+            point:{
+              radius: 0
+            }
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
+                beginAtZero: true,
+                stepSize: 1,
+                maxTicksLimit: 50
+              }
+          }],
+          xAxes:[{
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 15                 
+            }
+          }]
+          },
+          legend: {
+          display: true,
+          autoDisplayLegend:true
+          },
+      }
+        });
+        }   
+
+
+  }
