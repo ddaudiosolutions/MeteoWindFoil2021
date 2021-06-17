@@ -14,6 +14,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
 
       updateCMSAP()
       updateArenal()
+      updateCMSAPGR()
       
       };
 
@@ -23,7 +24,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
       .then (resp => resp.json())        
       .then(function(datoscmsap) {
           mostrarDatosEstaciones(datoscmsap)          
-          setTimeout(updateCMSAP, 5000, 60); /// <-- now that this call is done, 
+          setTimeout(updateCMSAP, 10000, 60); /// <-- now that this call is done, 
                                     //     we can program the next one                                  
         })    
       .catch (error => console.log(error))       
@@ -40,7 +41,7 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
             cnArenal(datoscnarenal)             
             // console.log(datos2)
              // ... do something with your json ...
-             setTimeout(updateArenal, 5000, 60); /// <-- now that this call is done, 
+             setTimeout(updateArenal, 10000, 60); /// <-- now that this call is done, 
                                        
            })
            .catch (error => console.log(error))
@@ -157,27 +158,42 @@ const urlcnarenal = 'https://api.oceandrivers.com:443/v1.0/getWeatherDisplay/cna
  
 
       // GRAFICO VIENTO CN CAN PASTILLA
-                    
-fetch(urlcmsap)
-      .then (resp2 => resp2.json())
-      .then(datoscmsap => graficoVientocmsap(datoscmsap))
-// chart colors
-    var dataSetcmsap = []
-    var dataSetcmsapGust = []
-    var dataSetTimecmsap = []
 
-function graficoVientocmsap(datoscmsap){
-    //console.log(datosG.TIME[0],datosG.TIME[1],datosG.TIME[2] )
+      
+
+function updateCMSAPGR (){                    
+
+    fetch(urlcmsap)
+      .then (resp2 => resp2.json())
+      .then(function (datoscmsap2){graficoVientocmsap(datoscmsap2), setTimeout (updateCMSAPGR, 50000, 60)
+
+      } 
+        )
+// chart colors
+    
+      }
+
+     
+
+function graficoVientocmsap(datoscmsap2){
+
+  var dataSetcmsap = []
+  var dataSetcmsapGust = []
+  var dataSetTimecmsap = []
+
+    console.log(datoscmsap2.TWS_GUST )
      
      //var horasViento = dataSetTime.getHours();
-    for(let i=0; i<datoscmsap.length; i++){
-        dataSetcmsap.push((datoscmsap.TWS[i]))
-        dataSetcmsapGust.push(datoscmsap.TWS_GUST[i])
+    for(let i=0; i<datoscmsap2.length; i++){
+        dataSetcmsap.push((datoscmsap2.TWS[i]))
+        dataSetcmsapGust.push(datoscmsap2.TWS_GUST[i])
+       
     }
+    console.log(dataSetcmsap)
 
-    for(let i=0; i<datoscmsap.length; i++){
+    for(let i=0; i<datoscmsap2.length; i++){
        // console.log(datosG.TIME[i])
-        dataSetTimecmsap.push(new Date (datoscmsap.TIME[i]).toTimeString().slice(0,5))
+        dataSetTimecmsap.push(new Date (datoscmsap2.TIME[i]).toTimeString().slice(0,5))
        //console.log(dataSetTime)
     }
 
@@ -188,7 +204,7 @@ function graficoVientocmsap(datoscmsap){
       /* large line chart */
         var chLinecmsap = document.querySelector("#chLine");
 
-        var datosGraph = {
+        var datosGraphCMSAP = {
             labels:  dataSetTimecmsap,
             datasets: [              
             {
@@ -220,27 +236,24 @@ function graficoVientocmsap(datoscmsap){
             ]
         
         };
-        let maxWind = Math.max(...datosGraph.datasets[0].data)
-        //console.log(maxWind)
+        let maxWind = Math.max(...datosGraphCMSAP.datasets[1].data)
+        console.log(datosGraphCMSAP.datasets[1].data)
        
         
         if (chLinecmsap) {   
             new Chart(chLinecmsap, {
             type: 'line',
-            data: datosGraph,
+            data: datosGraphCMSAP,
             
-            options: {
-              //showLines: false,
-              //snapGaps: false,
-              elements:{
-                
+            options: { 
+                     
+              elements:{                
                 responsive: false,
                 maintainAspectRatio: false,
                 line: {
                     borderJoinStyle: 'round',  
                 },
-                
-                
+                                
                 point:{
                   radius: 1
                 }
@@ -251,15 +264,17 @@ function graficoVientocmsap(datoscmsap){
                       suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
                       beginAtZero: true,
                       stepSize: 1,
-                      maxTicksLimit: 50
+                      maxTicksLimit: 10
+
                     }
                 }],
-                xAxes:[{
+                xAxes: [{
+                  
+                  
                   ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 4               
-                  }
-                }]
+                      source: 'data'
+                  },
+              }]            
                 },
                 legend: {
                 display: true,
@@ -329,17 +344,17 @@ function graficoViento(datosCNA){
     for(let i=0; i<datosCNA.length; i++){
        // console.log(datosG.TIME[i])
         dataSetTimeCNA.push(new Date (datosCNA.TIME[i]).toTimeString().slice(0,5))
-       //console.log(dataSetTime)
+       
     }
     
-    
+    console.log(dataSetTimeCNA)
   
     var colors = ['#007bff','#0097fc','#333333','#c3e6cb','#dc3545','#ed872d']; 
  
       /* large line chart */
         var chLineCNA = document.querySelector("#chLine2");
 
-        var chartData = {
+        var chartDataCNA = {
         labels:  dataSetTimeCNA,
         datasets: [
           {
@@ -371,13 +386,13 @@ function graficoViento(datosCNA){
         ]
         
         };
-        let maxWind = Math.max(...chartData.datasets[0].data)
-        
+        let maxWind = Math.max(...chartDataCNA.datasets[1].data)
+        console.log(chartDataCNA.datasets[1].data)
 
         if (chLineCNA) {   
         new Chart(chLineCNA, {
         type: 'line',
-        data: chartData,
+        data: chartDataCNA,
         options: {
           elements:{
             responsive: false,
@@ -397,7 +412,7 @@ function graficoViento(datosCNA){
                 suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
                 beginAtZero: true,
                 stepSize: 1,
-                maxTicksLimit: 50
+                maxTicksLimit: 10
               }
           }],
           xAxes:[{
@@ -455,7 +470,7 @@ fetch (url24hCMSAP)
       /* large line chart */
         var chLineCMSAP = document.querySelector("#chLine24CMSAP");
 
-        var chartData = {
+        var chartData24sm = {
         labels:  dataSetTimeCMSAP,
         datasets: [
           {
@@ -474,13 +489,13 @@ fetch (url24hCMSAP)
         ]
         
         };
-        let maxWind = Math.max(...chartData.datasets[0].data)
+        let maxWind = Math.max(...chartData24sm.datasets[0].data)
         
 
         if (chLineCMSAP) {   
         new Chart(chLineCMSAP, {
         type: 'line',
-        data: chartData,
+        data: chartData24sm,
         options: {
           elements:{
             responsive: false,
@@ -500,13 +515,14 @@ fetch (url24hCMSAP)
                 suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
                 beginAtZero: true,
                 stepSize: 1,
-                maxTicksLimit: 50
+                maxTicksLimit: 10
               }
           }],
           xAxes:[{
             ticks: {
               autoSkip: true,
-              maxTicksLimit: 15                 
+              maxTicksLimit: 10
+
             }
           }]
           },
@@ -544,6 +560,7 @@ fetch (url24hArenal)
     for(let i=0; i<resultado24Arenal.length; i++){
        
         dataSetTimeCNA.push(new Date (resultado24Arenal.TIME[i]).toTimeString().slice(0,5))
+        //console.log(dataSetTimeCNA)
       
     }
     
@@ -554,7 +571,7 @@ fetch (url24hArenal)
       /* large line chart */
         var chLine24CNA = document.querySelector("#chLine24CNARENAL");
 
-        var chartData = {
+        var chartDataCNA24 = {
         labels:  dataSetTimeCNA,
         datasets: [
           {
@@ -573,13 +590,13 @@ fetch (url24hArenal)
         ]
         
         };
-        let maxWind = Math.max(...chartData.datasets[0].data)
+        let maxWind = Math.max(...chartDataCNA24.datasets[0].data)
         
 
         if (chLine24CNA) {   
         new Chart(chLine24CNA, {
         type: 'line',
-        data: chartData,
+        data: chartDataCNA24,
         options: {
           elements:{
             responsive: false,
@@ -599,13 +616,13 @@ fetch (url24hArenal)
                 suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
                 beginAtZero: true,
                 stepSize: 1,
-                maxTicksLimit: 50
+                maxTicksLimit: 10
               }
           }],
           xAxes:[{
             ticks: {
               autoSkip: true,
-              maxTicksLimit: 15                 
+              maxTicksLimit: 5                
             }
           }]
           },
