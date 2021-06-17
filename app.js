@@ -181,7 +181,7 @@ function graficoVientocmsap(datoscmsap2){
   var dataSetcmsapGust = []
   var dataSetTimecmsap = []
 
-    console.log(datoscmsap2.TWS_GUST )
+    //console.log(datoscmsap2.TWS_GUST )
      
      //var horasViento = dataSetTime.getHours();
     for(let i=0; i<datoscmsap2.length; i++){
@@ -189,7 +189,7 @@ function graficoVientocmsap(datoscmsap2){
         dataSetcmsapGust.push(datoscmsap2.TWS_GUST[i])
        
     }
-    console.log(dataSetcmsap)
+    //console.log(dataSetcmsap)
 
     for(let i=0; i<datoscmsap2.length; i++){
        // console.log(datosG.TIME[i])
@@ -237,7 +237,7 @@ function graficoVientocmsap(datoscmsap2){
         
         };
         let maxWind = Math.max(...datosGraphCMSAP.datasets[1].data)
-        console.log(datosGraphCMSAP.datasets[1].data)
+        //console.log(datosGraphCMSAP.datasets[1].data)
        
         
         if (chLinecmsap) {   
@@ -310,7 +310,7 @@ for ( var i = 1; i < fitCount - 1; i++) {
   newData[i] = linearInterpolate(data[before], data[after], atPoint);
   }
   newData[fitCount - 1] = data[data.length - 1]; // for new allocation
-  console.log(newData)
+ // console.log(newData)
   return newData;
 };
       
@@ -347,7 +347,7 @@ function graficoViento(datosCNA){
        
     }
     
-    console.log(dataSetTimeCNA)
+  //  console.log(dataSetTimeCNA)
   
     var colors = ['#007bff','#0097fc','#333333','#c3e6cb','#dc3545','#ed872d']; 
  
@@ -387,7 +387,7 @@ function graficoViento(datosCNA){
         
         };
         let maxWind = Math.max(...chartDataCNA.datasets[1].data)
-        console.log(chartDataCNA.datasets[1].data)
+      //  console.log(chartDataCNA.datasets[1].data)
 
         if (chLineCNA) {   
         new Chart(chLineCNA, {
@@ -519,6 +519,7 @@ fetch (url24hCMSAP)
               }
           }],
           xAxes:[{
+            type: 'time', 
             ticks: {
               autoSkip: true,
               maxTicksLimit: 10
