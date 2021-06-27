@@ -259,15 +259,19 @@ function graficoVientocmsap(datoscmsap2){
                 }
               },
                 scales: {
-                yAxes: [{
-                    ticks: {
-                      suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
-                      beginAtZero: true,
-                      stepSize: 1,
-                      maxTicksLimit: 10
+                y: {
+                  beginAtZero: true,
+                  suggestedMax: maxWind + 2,
+                  stepSize: 1,
+                  maxTicksLimit: 10,
+                    // ticks: {
+                    //   suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
+                    //   beginAtZero: true,
+                    //   stepSize: 1,
+                    //   maxTicksLimit: 10
 
-                    }
-                }],
+                    // }
+                },
                 xAxes: [{
                   
                   
@@ -407,14 +411,18 @@ function graficoViento(datosCNA){
             }
           },
           scales: {
-            yAxes: [{
-              ticks: {
-                suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
+            y: {
+              suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
                 beginAtZero: true,
                 stepSize: 1,
-                maxTicksLimit: 10
-              }
-          }],
+                maxTicksLimit: 10,
+              // ticks: {
+              //   suggestedMax: maxWind + 2, // scale.max is Math.max(data.max, 1e6),
+              //   beginAtZero: true,
+              //   stepSize: 1,
+              //   maxTicksLimit: 10
+              // }
+          },
           xAxes:[{
             ticks: {
               autoSkip: true,
